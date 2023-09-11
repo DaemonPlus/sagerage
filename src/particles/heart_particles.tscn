@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" uid="uid://bl787i2j4p3da" path="res://assets/heart_particle.png" id="1_dr0ce"]
+[ext_resource type="Script" path="res://src/particles/oneshot_particle_cleanup.gd" id="2_u5ytx"]
+
+[sub_resource type="Gradient" id="Gradient_7emkc"]
+offsets = PackedFloat32Array(0, 0.828479)
+colors = PackedColorArray(0.972656, 0.64979, 0, 1, 1, 0, 0.407843, 0)
+
+[node name="HeartParticles" type="CPUParticles2D"]
+emitting = false
+amount = 12
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource("1_dr0ce")
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 250)
+initial_velocity_min = 80.0
+initial_velocity_max = 80.0
+scale_amount_min = 0.2
+scale_amount_max = 0.4
+color_ramp = SubResource("Gradient_7emkc")
+script = ExtResource("2_u5ytx")

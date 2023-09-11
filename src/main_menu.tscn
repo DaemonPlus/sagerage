@@ -1,0 +1,159 @@
+[gd_scene load_steps=11 format=3 uid="uid://bgei866sac8nh"]
+
+[ext_resource type="Script" path="res://src/main_menu.gd" id="1_6128w"]
+[ext_resource type="PackedScene" uid="uid://wqr05gpneg8s" path="res://src/crt.tscn" id="2_ggekh"]
+[ext_resource type="Texture2D" uid="uid://drdijmd27cjb6" path="res://assets/sagefast.png" id="2_sxp8x"]
+[ext_resource type="Texture2D" uid="uid://cy7t1qpfc7bq7" path="res://assets/fullscreen_icon.png" id="3_isnu6"]
+[ext_resource type="FontFile" uid="uid://c0gvowexkxjbv" path="res://assets/fonts/MerchantFont_2.ttf" id="3_u4hq8"]
+[ext_resource type="Texture2D" uid="uid://dqevuycyv855p" path="res://assets/sagerage_title.png" id="3_xr3i1"]
+
+[sub_resource type="Animation" id="Animation_weikk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(67, -76)]
+}
+
+[sub_resource type="Animation" id="Animation_lrsby"]
+resource_name = "bounce"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(158, 46), Vector2(158, 38)]
+}
+
+[sub_resource type="Animation" id="Animation_71pve"]
+resource_name = "slide_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(158, -38), Vector2(158, 46)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["bounce", -1, 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sqjdh"]
+_data = {
+"RESET": SubResource("Animation_weikk"),
+"bounce": SubResource("Animation_lrsby"),
+"slide_in": SubResource("Animation_71pve")
+}
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-168, 72)
+script = ExtResource("1_6128w")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sxp8x")
+
+[node name="TitleSprite" type="Sprite2D" parent="."]
+position = Vector2(67, -76)
+texture = ExtResource("3_xr3i1")
+
+[node name="HBoxContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -32.0
+offset_right = 144.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="StartButton" type="Button" parent="HBoxContainer"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -25.5
+offset_top = -21.0
+offset_right = 25.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("3_u4hq8")
+text = "Start!"
+
+[node name="FullscreenButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+icon = ExtResource("3_isnu6")
+icon_alignment = 1
+expand_icon = true
+
+[node name="CRT" parent="." instance=ExtResource("2_ggekh")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "slide_in"
+libraries = {
+"": SubResource("AnimationLibrary_sqjdh")
+}
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="pressed" from="HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuud8rm036wss"]
+
+[ext_resource type="Script" path="res://src/actors/trans_bottle.gd" id="1_bq6eq"]
+[ext_resource type="Texture2D" uid="uid://cfv0a5jog7ck3" path="res://assets/transmisson_fluid.png" id="2_rih41"]
+
+[node name="TransBottle" type="Area2D" groups=["transup"]]
+monitoring = false
+script = ExtResource("1_bq6eq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+texture = ExtResource("2_rih41")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-5, 1, -2, 0, 5, 3, -1, 5)

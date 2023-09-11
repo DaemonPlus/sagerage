@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dgxboy4tvbnun" path="res://assets/dolla_particle.png" id="1_0y7vu"]
+[ext_resource type="Script" path="res://src/particles/oneshot_particle_cleanup.gd" id="2_byfm7"]
+
+[sub_resource type="Gradient" id="Gradient_rbipr"]
+offsets = PackedFloat32Array(0.313167, 1)
+colors = PackedColorArray(0.168627, 0.607843, 0.243137, 1, 0.164706, 0.607843, 0.235294, 0)
+
+[node name="CashExplosionParticles" type="CPUParticles2D"]
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+draw_order = 1
+texture = ExtResource("1_0y7vu")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 16.0
+angular_velocity_min = -64.0
+angular_velocity_max = 64.0
+linear_accel_min = 100.0
+linear_accel_max = 500.0
+damping_min = 100.0
+damping_max = 100.0
+color_ramp = SubResource("Gradient_rbipr")
+script = ExtResource("2_byfm7")

@@ -1,0 +1,260 @@
+[gd_scene load_steps=15 format=3 uid="uid://bw6rhn05k1gmd"]
+
+[ext_resource type="Script" path="res://src/results_screen.gd" id="2_eqtbk"]
+[ext_resource type="Shader" path="res://assets/shaders/results_screen.gdshader" id="3_1id7t"]
+[ext_resource type="PackedScene" uid="uid://wqr05gpneg8s" path="res://src/crt.tscn" id="3_x2aka"]
+[ext_resource type="Texture2D" uid="uid://dvnwtxwx3qxjl" path="res://assets/rs_bg.png" id="4_j4rst"]
+[ext_resource type="Texture2D" uid="uid://cy7t1qpfc7bq7" path="res://assets/fullscreen_icon.png" id="4_xks5h"]
+[ext_resource type="FontFile" uid="uid://c0gvowexkxjbv" path="res://assets/fonts/MerchantFont_2.ttf" id="5_38up0"]
+[ext_resource type="Texture2D" uid="uid://dfir1hl3xjpkl" path="res://assets/rs_bg2.png" id="5_w6dp0"]
+
+[sub_resource type="Gradient" id="Gradient_pdxkp"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.544484, 1)
+colors = PackedColorArray(0.00392157, 1, 0.647059, 1, 0, 0.292603, 1, 1, 0.00392157, 1, 0.647059, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dqsq5"]
+gradient = SubResource("Gradient_pdxkp")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p24w5"]
+shader = ExtResource("3_1id7t")
+shader_parameter/screen_height = 320.0
+shader_parameter/amplitude = -0.025
+shader_parameter/frequency = 0.0
+shader_parameter/speed = 2.0
+shader_parameter/amplitude_vertical = -0.2
+shader_parameter/frequency_vertical = 8.0
+shader_parameter/speed_vertical = 3.0
+shader_parameter/scroll_direction = Vector2(0, 1)
+shader_parameter/scrolling_speed = 0.08
+shader_parameter/enable_palette_cycling = true
+shader_parameter/palette_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_dqsq5")
+
+[sub_resource type="Gradient" id="Gradient_qpywb"]
+offsets = PackedFloat32Array(0, 0.494662, 1)
+colors = PackedColorArray(1, 0.231373, 0.447059, 1, 0.849918, 0.473067, 0.914062, 1, 1, 0.231373, 0.447059, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7linn"]
+gradient = SubResource("Gradient_qpywb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lk54g"]
+shader = ExtResource("3_1id7t")
+shader_parameter/screen_height = 320.0
+shader_parameter/amplitude = 0.025
+shader_parameter/frequency = 10.0
+shader_parameter/speed = 2.0
+shader_parameter/amplitude_vertical = 0.0
+shader_parameter/frequency_vertical = 0.0
+shader_parameter/speed_vertical = 0.0
+shader_parameter/scroll_direction = Vector2(0.5, -1)
+shader_parameter/scrolling_speed = 0.08
+shader_parameter/enable_palette_cycling = true
+shader_parameter/palette_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_7linn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xtp8"]
+shader = ExtResource("3_1id7t")
+shader_parameter/screen_height = 320.0
+shader_parameter/amplitude = 0.025
+shader_parameter/frequency = 0.0
+shader_parameter/speed = 2.0
+shader_parameter/amplitude_vertical = 0.2
+shader_parameter/frequency_vertical = 8.0
+shader_parameter/speed_vertical = 3.0
+shader_parameter/scroll_direction = Vector2(0, 1)
+shader_parameter/scrolling_speed = 0.08
+shader_parameter/enable_palette_cycling = true
+shader_parameter/palette_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_dqsq5")
+
+[node name="ResultsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_eqtbk")
+metadata/_edit_horizontal_guides_ = []
+
+[node name="CRT" parent="." instance=ExtResource("3_x2aka")]
+
+[node name="BG" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackRect" type="ColorRect" parent="BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Wave3" type="TextureRect" parent="BG"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_p24w5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_j4rst")
+
+[node name="WaveS2" type="TextureRect" parent="BG"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_lk54g")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_w6dp0")
+
+[node name="Wave1" type="TextureRect" parent="BG"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_6xtp8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_j4rst")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -20.0
+offset_right = 27.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mailboxes" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Mailboxes"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Mailboxes Hit: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/Mailboxes"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "0"
+
+[node name="Dollas" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Dollas"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Dollas Collected: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/Dollas"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "$0"
+
+[node name="Cars" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Cars"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Cars Destroyed: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/Cars"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "0"
+
+[node name="Purchases" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Purchases"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Lefties Purchased: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/Purchases"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "0"
+
+[node name="Attacks" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Attacks"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Lefty Attacks: "
+
+[node name="Label2" type="Label" parent="VBoxContainer/Attacks"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "0"
+
+[node name="ReplayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_38up0")
+text = "Replay"
+
+[node name="FullscreenButton" type="Button" parent="."]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+icon = ExtResource("4_xks5h")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="pressed" from="VBoxContainer/ReplayButton" to="." method="_on_replay_button_pressed"]
+[connection signal="pressed" from="FullscreenButton" to="." method="_on_fullscreen_button_pressed"]

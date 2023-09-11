@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2s6l1eekrmo6"]
+
+[ext_resource type="Texture2D" uid="uid://dacmttycxq4k" path="res://assets/root.png" id="1_hxoym"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m74mx"]
+atlas = ExtResource("1_hxoym")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nerh2"]
+atlas = ExtResource("1_hxoym")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6gsdo"]
+animations = [{
+"frames": [SubResource("AtlasTexture_m74mx")],
+"loop": false,
+"name": &"alive",
+"speed": 1.0
+}, {
+"frames": [SubResource("AtlasTexture_nerh2")],
+"loop": false,
+"name": &"dead",
+"speed": 1.0
+}]
+
+[node name="Root" type="Area2D" groups=["root"]]
+monitoring = false
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+frames = SubResource("SpriteFrames_6gsdo")
+animation = &"alive"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-9, 12, 0, 16, 9, 12, 0, 8)

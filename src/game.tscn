@@ -1,0 +1,145 @@
+[gd_scene load_steps=14 format=3 uid="uid://b3y31ur5okwh1"]
+
+[ext_resource type="Script" path="res://src/game.gd" id="1_bntf1"]
+[ext_resource type="PackedScene" uid="uid://wqr05gpneg8s" path="res://src/crt.tscn" id="1_smj8q"]
+[ext_resource type="PackedScene" uid="uid://blt4f21u0mjjl" path="res://src/actors/sage_truck.tscn" id="2_fdvq2"]
+[ext_resource type="PackedScene" uid="uid://dboujvca80p4g" path="res://src/game_ui.tscn" id="2_xdrsr"]
+[ext_resource type="Texture2D" uid="uid://b3eb8yhmcbc2v" path="res://assets/bg.png" id="6_6le7q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j86f"]
+atlas = ExtResource("6_6le7q")
+region = Rect2(0, 0, 336, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woetl"]
+atlas = ExtResource("6_6le7q")
+region = Rect2(336, 0, 336, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g1mrw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3j86f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woetl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t3jh0"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gly5s"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_voh1l"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_utmff"]
+normal = Vector2(0, 1)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_dvn8v"]
+a = Vector2(32, 264)
+b = Vector2(320, -24)
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_bntf1")
+
+[node name="BG" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(160, 120)
+scale = Vector2(1.06667, 1.06667)
+sprite_frames = SubResource("SpriteFrames_g1mrw")
+autoplay = "default"
+
+[node name="SageTruck" parent="." instance=ExtResource("2_fdvq2")]
+y_sort_enabled = true
+position = Vector2(64, 192)
+
+[node name="Actors" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="MovingActors" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="RoadSpawnArea" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(320, 0, 320, 240, 640, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(320, -240)
+polygon = PackedVector2Array(320, 0, 0, 240, 320, 240)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(320, 0, 0, 240, 320, 240)
+
+[node name="RoadSpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="MailboxSpawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="FiveDollaTimer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="CarSpawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="LeftySpawnTimer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[node name="RootSpawnTimer" type="Timer" parent="."]
+wait_time = 45.0
+autostart = true
+
+[node name="UI" parent="." instance=ExtResource("2_xdrsr")]
+
+[node name="CRT" parent="." instance=ExtResource("1_smj8q")]
+
+[node name="WorldBorder" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBorder"]
+position = Vector2(-11, 120)
+shape = SubResource("WorldBoundaryShape2D_t3jh0")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldBorder"]
+position = Vector2(160, 248)
+shape = SubResource("WorldBoundaryShape2D_gly5s")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBorder"]
+position = Vector2(331, 128)
+shape = SubResource("WorldBoundaryShape2D_voh1l")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldBorder"]
+position = Vector2(160, -8)
+shape = SubResource("WorldBoundaryShape2D_utmff")
+
+[node name="Curb" type="Area2D" parent="." groups=["curb"]]
+
+[node name="CurbCollisionShape2D" type="CollisionShape2D" parent="Curb"]
+shape = SubResource("SegmentShape2D_dvn8v")
+
+[connection signal="car_hit" from="SageTruck" to="." method="_on_sage_truck_car_hit"]
+[connection signal="fivedolla_collected" from="SageTruck" to="." method="_on_sage_truck_fivedolla_collected"]
+[connection signal="lefty_hit" from="SageTruck" to="." method="_on_sage_truck_lefty_hit"]
+[connection signal="lefty_purchased" from="SageTruck" to="." method="_on_sage_truck_lefty_purchased"]
+[connection signal="mailbox_hit" from="SageTruck" to="." method="_on_sage_truck_mailbox_hit"]
+[connection signal="out_of_transfluid" from="SageTruck" to="." method="_on_sage_truck_out_of_transfluid"]
+[connection signal="root_hit" from="SageTruck" to="." method="_on_sage_truck_root_hit"]
+[connection signal="trans_collected" from="SageTruck" to="." method="_on_sage_truck_trans_collected"]
+[connection signal="update_trans" from="SageTruck" to="." method="_on_sage_truck_update_trans"]
+[connection signal="timeout" from="RoadSpawnTimer" to="." method="_on_road_spawn_timer_timeout"]
+[connection signal="timeout" from="MailboxSpawnTimer" to="." method="_on_mailbox_spawn_timer_timeout"]
+[connection signal="timeout" from="FiveDollaTimer" to="." method="_on_five_dolla_timer_timeout"]
+[connection signal="timeout" from="CarSpawnTimer" to="." method="_on_car_spawn_timer_timeout"]
+[connection signal="timeout" from="LeftySpawnTimer" to="." method="_on_lefty_spawn_timer_timeout"]
+[connection signal="timeout" from="RootSpawnTimer" to="." method="_on_root_spawn_timer_timeout"]

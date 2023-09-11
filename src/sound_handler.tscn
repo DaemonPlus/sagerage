@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bl5v0s5rgki53"]
+
+[ext_resource type="Script" path="res://src/sound_handler.gd" id="1_4n5hv"]
+[ext_resource type="AudioStream" uid="uid://bmo1hgkecy7iq" path="res://assets/music/TitleTheme.wav" id="3_06edu"]
+[ext_resource type="AudioStream" uid="uid://b4651n6fk0tqm" path="res://assets/music/SageRage.wav" id="3_jteuh"]
+[ext_resource type="AudioStream" uid="uid://m1s20ys0yyal" path="res://assets/sfx/selectShortDown.wav" id="3_mf7uw"]
+
+[node name="SoundHandler" type="Node"]
+script = ExtResource("1_4n5hv")
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Select" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("3_mf7uw")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Title" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("3_06edu")
+bus = &"Music"
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("3_jteuh")
+bus = &"Music"

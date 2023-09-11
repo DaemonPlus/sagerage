@@ -1,0 +1,156 @@
+[gd_scene load_steps=22 format=3 uid="uid://blt4f21u0mjjl"]
+
+[ext_resource type="Script" path="res://src/actors/sage_truck.gd" id="1_8svkv"]
+[ext_resource type="Texture2D" uid="uid://b3w2k2h7vun6k" path="res://assets/sagetruck.png" id="2_7s6cb"]
+[ext_resource type="Script" path="res://src/actors/PlayerCamera.gd" id="3_ouyj1"]
+[ext_resource type="AudioStream" uid="uid://bdh55heh4jxlv" path="res://assets/sfx/CurbSFX.wav" id="4_n4vdb"]
+[ext_resource type="AudioStream" uid="uid://c6t1uqaj7gjae" path="res://assets/sfx/trans-pickup.wav" id="5_mhekh"]
+[ext_resource type="AudioStream" uid="uid://n1so00g5c78f" path="res://assets/sfx/Sage_Rage.wav" id="6_s8aup"]
+[ext_resource type="AudioStream" uid="uid://cdde3p0w5rvas" path="res://assets/sfx/kaching.wav" id="7_o38ke"]
+[ext_resource type="AudioStream" uid="uid://i5vuy511pbb5" path="res://assets/sfx/sageOOO.wav" id="8_7rs8c"]
+[ext_resource type="AudioStream" uid="uid://bgxyf746522uo" path="res://assets/sfx/sagetaking.wav" id="9_wnd0g"]
+[ext_resource type="AudioStream" uid="uid://boa7rhcuf28r" path="res://assets/sfx/quirkyatnight.wav" id="10_45quo"]
+[ext_resource type="AudioStream" uid="uid://bxa18uxcc7tiv" path="res://assets/sfx/root-death.wav" id="11_kfhh4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic0ry"]
+atlas = ExtResource("2_7s6cb")
+region = Rect2(0, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m88gw"]
+atlas = ExtResource("2_7s6cb")
+region = Rect2(32, 0, 32, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_006gv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic0ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m88gw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jbm6a"]
+radius = 6.0
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_o1iow"]
+a = Vector2(-14, 14)
+b = Vector2(0, 1)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_630nr"]
+a = Vector2(1, 16)
+b = Vector2(15, 5)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ijj87"]
+streams_count = 1
+playback_mode = 1
+stream_0/stream = ExtResource("4_n4vdb")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_luggr"]
+streams_count = 1
+playback_mode = 1
+stream_0/stream = ExtResource("5_mhekh")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_skrvt"]
+streams_count = 1
+playback_mode = 1
+stream_0/stream = ExtResource("7_o38ke")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_a88op"]
+streams_count = 2
+playback_mode = 1
+random_pitch = 1.0
+stream_0/stream = ExtResource("8_7rs8c")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("9_wnd0g")
+stream_1/weight = 1.0
+
+[node name="SageTruck" type="CharacterBody2D"]
+script = ExtResource("1_8svkv")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_006gv")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_jbm6a")
+
+[node name="Camera" type="Camera2D" parent="."]
+limit_left = -4
+limit_top = -4
+limit_right = 324
+limit_bottom = 244
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 1.0
+script = ExtResource("3_ouyj1")
+
+[node name="Frequency" type="Timer" parent="Camera"]
+
+[node name="Duration" type="Timer" parent="Camera"]
+wait_time = 5.0
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(-14, 14, 0, 1, 15, 5, 1, 16)
+
+[node name="LeftTireHitbox" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftTireHitbox"]
+shape = SubResource("SegmentShape2D_o1iow")
+
+[node name="RightTireHitbox" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightTireHitbox"]
+shape = SubResource("SegmentShape2D_630nr")
+
+[node name="TransPuddleTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="CurbSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ijj87")
+max_polyphony = 2
+
+[node name="ExplosionLoudSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ijj87")
+volume_db = 8.0
+max_polyphony = 4
+
+[node name="TransSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_luggr")
+max_polyphony = 4
+
+[node name="FuckOffSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_s8aup")
+
+[node name="KaChingSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_skrvt")
+max_polyphony = 4
+
+[node name="OooSFX" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_a88op")
+
+[node name="QuirkySFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_45quo")
+
+[node name="RootDeathSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_kfhh4")
+volume_db = 8.0
+
+[connection signal="timeout" from="Camera/Frequency" to="Camera" method="_on_frequency_timeout"]
+[connection signal="timeout" from="Camera/Duration" to="Camera" method="_on_duration_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="LeftTireHitbox" to="." method="_on_tire_hitbox_area_entered"]
+[connection signal="area_entered" from="RightTireHitbox" to="." method="_on_tire_hitbox_area_entered"]
+[connection signal="timeout" from="TransPuddleTimer" to="." method="_on_trans_puddle_timer_timeout"]

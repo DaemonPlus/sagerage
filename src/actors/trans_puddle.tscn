@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://lrlhdfwc5tkb"]
+
+[ext_resource type="Texture2D" uid="uid://cot7djopvelro" path="res://assets/transpuddle.png" id="1_ei7v6"]
+
+[node name="TransPuddle" type="Sprite2D"]
+modulate = Color(0.937255, 0, 0.345098, 0.498039)
+texture = ExtResource("1_ei7v6")

@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://bionkt1lvn0c3"]
+
+[ext_resource type="Texture2D" uid="uid://cjuk76dlh0yyo" path="res://assets/5dolla.png" id="1_a4mb4"]
+[ext_resource type="Texture2D" uid="uid://bqcok4w7u8bjh" path="res://assets/5dolla_shad.png" id="3_olrto"]
+
+[sub_resource type="Animation" id="Animation_0nhx5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1)]
+}
+
+[sub_resource type="Animation" id="Animation_qcdk8"]
+resource_name = "bob"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -2), Vector2(0, 2), Vector2(0, -2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fovm2"]
+_data = {
+"RESET": SubResource("Animation_0nhx5"),
+"bob": SubResource("Animation_qcdk8")
+}
+
+[node name="FiveDolla" type="Area2D" groups=["fivedollas"]]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+texture = ExtResource("1_a4mb4")
+offset = Vector2(0, -1)
+
+[node name="SpriteShad" type="Sprite2D" parent="."]
+position = Vector2(0, 7)
+texture = ExtResource("3_olrto")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." groups=["FiveDollas"]]
+position = Vector2(1, 3)
+polygon = PackedVector2Array(-7, 0, 5, 3, 5, 7, -7, 4)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "bob"
+playback_speed = 3.0
+libraries = {
+"": SubResource("AnimationLibrary_fovm2")
+}

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" uid="uid://cv5kvrx3u45gm" path="res://assets/trans_particle.png" id="1_dp8qd"]
+[ext_resource type="Script" path="res://src/particles/oneshot_particle_cleanup.gd" id="1_qmljo"]
+
+[node name="TransExplosionParticles" type="CPUParticles2D"]
+emitting = false
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+texture = ExtResource("1_dp8qd")
+direction = Vector2(-1, -1)
+spread = 135.0
+gravity = Vector2(0, 245)
+initial_velocity_min = 64.0
+initial_velocity_max = 128.0
+damping_min = 100.0
+damping_max = 100.0
+scale_amount_min = 0.5
+color = Color(1, 0, 0.407843, 1)
+script = ExtResource("1_qmljo")

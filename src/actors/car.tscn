@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=3 uid="uid://brq1l4074urql"]
+
+[ext_resource type="Script" path="res://src/actors/car.gd" id="1_g6e85"]
+[ext_resource type="Texture2D" uid="uid://cdvymt8f0utj" path="res://assets/enemycar.png" id="2_yw0du"]
+[ext_resource type="Texture2D" uid="uid://dw2uh5oxcpt5e" path="res://assets/enemytaxi.png" id="3_5dm1f"]
+[ext_resource type="Texture2D" uid="uid://qo4yqohtpa27" path="res://assets/enemytruck.png" id="4_hutcv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8wvl"]
+atlas = ExtResource("2_yw0du")
+region = Rect2(0, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvhel"]
+atlas = ExtResource("2_yw0du")
+region = Rect2(32, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ha7s"]
+atlas = ExtResource("3_5dm1f")
+region = Rect2(0, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ook7d"]
+atlas = ExtResource("3_5dm1f")
+region = Rect2(32, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vetpe"]
+atlas = ExtResource("4_hutcv")
+region = Rect2(0, 0, 32, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kij7"]
+atlas = ExtResource("4_hutcv")
+region = Rect2(32, 0, 32, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xc2xb"]
+animations = [{
+"frames": [SubResource("AtlasTexture_y8wvl"), SubResource("AtlasTexture_hvhel")],
+"loop": true,
+"name": &"car",
+"speed": 8.0
+}, {
+"frames": [SubResource("AtlasTexture_4ha7s"), SubResource("AtlasTexture_ook7d")],
+"loop": true,
+"name": &"taxi",
+"speed": 8.0
+}, {
+"frames": [SubResource("AtlasTexture_vetpe"), SubResource("AtlasTexture_4kij7")],
+"loop": true,
+"name": &"truck",
+"speed": 8.0
+}]
+
+[node name="Car" type="Area2D" groups=["cars"]]
+script = ExtResource("1_g6e85")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+frames = SubResource("SpriteFrames_xc2xb")
+animation = &"car"
+playing = true
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-14, 13, -1, 0, 15, 3, 2, 16)

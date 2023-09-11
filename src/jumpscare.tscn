@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=3 uid="uid://cf55y3iyfb7wn"]
+
+[ext_resource type="Texture2D" uid="uid://beenu31gr2q7j" path="res://assets/jumpscare.png" id="1_rwu71"]
+[ext_resource type="AudioStream" uid="uid://n1so00g5c78f" path="res://assets/sfx/Sage_Rage.wav" id="2_phith"]
+[ext_resource type="AudioStream" uid="uid://bg2kwtmaqkkbf" path="res://assets/sfx/lefty-scream.wav" id="3_d6m7f"]
+
+[sub_resource type="Animation" id="Animation_47lu6"]
+resource_name = "jumpscare"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_d6m7f")
+}],
+"times": PackedFloat32Array(0.8)
+}
+tracks/1/use_blend = true
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 0), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4h0v7"]
+_data = {
+"jumpscare": SubResource("Animation_47lu6")
+}
+
+[node name="Jumpscare" type="Node2D"]
+z_index = 1
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(160, 120)
+scale = Vector2(3.42857, 3.42857)
+texture = ExtResource("1_rwu71")
+hframes = 6
+vframes = 4
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Sprite"]
+stream = ExtResource("2_phith")
+
+[node name="ColorRect" type="ColorRect" parent="Sprite"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -38.0
+offset_right = -80.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+autoplay = "jumpscare"
+speed_scale = 4.0
+libraries = {
+"": SubResource("AnimationLibrary_4h0v7")
+}
